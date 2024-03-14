@@ -1,0 +1,13 @@
+body {
+  font-family: Roboto, sans-serif;
+  background-image: url("/img/backgroundintro.png");
+}
+body .container {
+  width: 800px;
+  margin: auto;
+}
+body .container h1 {
+  margin-left: 350px;
+}
+
+/*# sourceMappingURL=intro.css.map */
