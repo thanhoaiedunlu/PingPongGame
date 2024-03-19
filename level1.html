@@ -5,10 +5,17 @@
     <title>Level 1</title>
     <link rel="stylesheet" href="css/level1.css">
     <link href="img/logo.png" rel="icon">
+    <style>
+        .left-col, .center-col, .right-col {
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
 </head>
 <body>
-<div class="left-col">
-    <div class="container">
+<div id="container">
+    <h1>Ping Pong Game</h1>
+    <div class="left-col">
         <div class="button-level"><a href="level1.html">
             <button class="level">Level 1</button>
         </a></div>
@@ -24,16 +31,31 @@
         <div class="button-level"><a href="level5.html">
             <button class="level">Level 5</button>
         </a></div>
+        <div class="button-intro"><a href="intro.html">
+            <button class="intro">Introduce</button>
+        </a></div>
+    </div>
+    <div class="center-col">
+        <canvas id="game"></canvas>
+    </div>
+    <div class="right-col">
+        <div class="button-right">
+            <button id="play" class="play green" onclick="">Play</button>
+        </div>
+        <div class="button-right">
+            <button id="pause" class="play red" onclick="">Pause</button>
+        </div>
+        <div class="button-right">
+            <button id="reset" class="play red" onclick="">Reset</button>
+        </div>
+        <div class="button-right">
+            <button id="mute" class="audio green" onclick="">Mute</button>
+        </div>
+        <div class="button-right">
+            <button id="unmute" class="audio green" onclick="">Un Mute</button>
+        </div>
     </div>
 </div>
-<div class="center-col">
-    <canvas id="game"></canvas>
-</div>
-<div class="right-col">
-    <button id="play" class="play green" onclick="">Play</button>
-    <button id="pause" class="play red" onclick="">Pause</button>
-    <button id="mute" class="audio green" onclick="">Mute</button>
-    <button id="unmute" class="audio green" onclick="">Un Mute</button>
-</div>
+<script src="./js/mainjs.js"></script>
 </body>
 </html>

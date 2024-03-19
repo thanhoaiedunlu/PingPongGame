@@ -1,8 +1,47 @@
 body {
-  background-image: url("/img/background.png");
+  background-color: grey;
   background-size: cover;
   position: relative;
   font-family: Roboto, sans-serif;
+}
+body #container {
+  width: 1200px;
+  margin: auto;
+  padding-top: 50px;
+}
+body #container .left-col {
+  width: 120px;
+}
+body #container .left-col .button-level button, body #container .left-col .button-intro button {
+  width: 80px;
+  height: 50px;
+  margin: 10px;
+  cursor: pointer;
+}
+body #container .center-col {
+  width: 930px;
+  text-align: center;
+}
+body #container .center-col h1 {
+  color: whitesmoke;
+  text-align: center;
+}
+body #container .center-col canvas {
+  background-color: ghostwhite;
+  width: 700px;
+  height: 500px;
+  margin: 0 auto;
+  display: block;
+}
+body #container .right-col {
+  width: 120px;
+  margin-left: 20px;
+}
+body #container .right-col .button-right button {
+  width: 80px;
+  height: 50px;
+  margin: 10px;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=level1.css.map */

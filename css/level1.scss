@@ -1,8 +1,52 @@
 $myFont:  Roboto, sans-serif;
 body{
-  background-image: url('/img/background.png');
+  //background-image: url('/img/background.png');
+  background-color: grey;
   background-size: cover;
   position: relative;
   font-family: $myFont;
-}
+  #container{
+    width: 1200px;
+    margin: auto;
+    padding-top: 50px;
+    .left-col{
+      width: 120px;
+      .button-level, .button-intro{
+        button{
+          width: 80px;
+          height: 50px;
+          margin: 10px;
+          cursor: pointer;
+        }
+      }
+    }
+    .center-col{
+        width: 930px;
+      text-align: center;
+        h1{
+          color: whitesmoke;
+          text-align: center;
+        }
+        canvas{
+          //background-image: url("/img/backgroundGame.png");
+          background-color: ghostwhite;
+          width: 700px;
+          height: 500px;
+          margin: 0 auto;
+          display: block;
+        }
+    }
+    .right-col{
+      width: 120px;
+      margin-left: 20px;
+      .button-right{
+      button{
+        width: 80px;
+        height: 50px;
+        margin: 10px;
+        cursor: pointer;
+      }
+    }
+  }
+}}
 
