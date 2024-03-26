@@ -28,8 +28,6 @@ body #container .center-col h1 {
 }
 body #container .center-col canvas {
   background-color: ghostwhite;
-  width: 700px;
-  height: 500px;
   margin: 0 auto;
   display: block;
 }
