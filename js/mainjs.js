@@ -8,7 +8,18 @@
 
      // tốc độ di chuyển ban đầu của quả bóng trên trục x và trục y
  dx = 2, dy= -2;
-
+    const retroColors = [
+        '#ff6969',
+        '#e8a650',
+        '#ffd369',
+        '#a5d296',
+        '#4cbbb9',
+        '#7aa5d2',
+        '#be86e3',
+        '#9c4f97',
+        '#ff8fb2',
+        '#5c5c5c'
+    ]
     // chiều cao và chiều rộng của thanh điều khiển
 let paddleHeight = 15,
     paddleWidth = 72;
@@ -41,7 +52,7 @@ for (let c = 0; c < columnCount; c++){
     bricks[c] = [];
     for (let r = 0; r < rowCount; r++){
         // Gán vị trí và trạng thái cho từng viên gạch
-        bricks[c][r] = {x: 0, y: 0, status: 1}
+        bricks[c][r] = {x: 0, y: 0, status: 1, color: retroColors[r]}
         // Vị trí x và y sẽ được cập nhật sau khi tính toán dựa trên vị trí và kích thước của từng viên gạch
     }
 }
@@ -59,7 +70,7 @@ function drawBricks(){
                 bricks[c][r].y = brickY;
                 ctx.beginPath(); // ve duong path moi
                 ctx.roundRect(brickX, brickY, brickWidth, brickHeight, 30);
-                ctx.fillStyle = '#333';
+                ctx.fillStyle = bricks[c][r].color
                 ctx.fill();
                 ctx.closePath();
             }
@@ -94,14 +105,35 @@ function drawPaddle(){
 
 // xu ly va cham giua bong va gach
 function hitDetection(){
-    for (let c = 0; c < columnCount; c++){
-        for (let r = 0; r < rowCount; r ++){
-            let b = bricks[c][r];
-            if (b.status === 1){
-                if (x > b.x && x < b.x + brickWidth && y > b.y  && y < b.y + brickHeight){
-                    dy = -dy;
-                    b.status = 0;
-                    score++;
+    for (c = 0; c < columnCount; c++) {
+        for (r = 0; r < rowCount; r++) {
+            const brick = bricks[c][r]
+            if (brick.status == 1) {
+                if (
+                    x > brick.x - ballRadius &&
+                    x < brick.x + brickWidth + ballRadius &&
+                    y > brick.y - ballRadius &&
+                    y < brick.y + brickHeight + ballRadius
+                ) {
+                    const collisionLeft = brick.x
+                    const collisionRight = brick.x + brickWidth
+                    const collisionUp = brick.y - ballRadius
+                    const collisionDown = brick.y + brickHeight
+                    let collision = null
+                    if (collisionLeft <= x <= collisionRight && y > collisionDown)
+                        collision = 'down'
+                    if (collisionLeft <= x <= collisionRight && y < collisionUp)
+                        collision = 'up'
+                    if (collisionUp <= y <= collisionDown && x < collisionLeft)
+                        collision = 'left'
+                    if (collisionUp <= y <= collisionDown && x > collisionRight)
+                        collision = 'right'
+                    if (['down', 'up'].includes(collision))
+                        dy = -dy
+                    if (['left', 'right'].includes(collision))
+                        dx = -dx
+                    brick.status = 0
+                    score++
                     checkWinCondition();
                 }
             }
