@@ -5,9 +5,9 @@
      //vị trí ban đầu của quả bóng trên trục x
  x =  canvas.width / (Math.floor(Math.random() * Math.random() * 10) + 3),
  y = canvas.height - 40,
-
      // tốc độ di chuyển ban đầu của quả bóng trên trục x và trục y
  dx = 2, dy= -2;
+
     const retroColors = [
         '#ff6969',
         '#e8a650',
@@ -20,6 +20,7 @@
         '#ff8fb2',
         '#5c5c5c'
     ]
+
     // chiều cao và chiều rộng của thanh điều khiển
 let paddleHeight = 15,
     paddleWidth = 72;
@@ -166,7 +167,6 @@ function checkCollision() {
                 document.location.reload();
             }
         }
-
         // Đảo ngược hướng di chuyển nếu quả bóng chạm vào biên trên hoặc dưới
         if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
             dy = -dy;
