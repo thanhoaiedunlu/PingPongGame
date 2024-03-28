@@ -92,7 +92,8 @@ function drawBall(){
 function drawPaddle(){
     ctx.beginPath(); // Bắt đầu một đường vẽ mới
     //Vị trí x của thanh điều khiển trên canvas.
-    ctx.roundRect(paddleX, canvas.height - paddleHeight, paddleWidth,paddleHeight, 30);
+    ctx.roundRect(paddleX, canvas.height - paddleHeight,
+        paddleWidth,paddleHeight, 30);
     ctx.fillStyle = "#333";
     ctx.fill();
     ctx.closePath();
@@ -152,7 +153,6 @@ function checkCollision() {
         if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
             dx = -dx;
         }
-
         // Kiểm tra va chạm với biên trên
         if (y + dy < ballRadius) {
             dy = -dy;
@@ -171,7 +171,6 @@ function checkCollision() {
         if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
             dy = -dy;
         }
-
         // Cập nhật vị trí mới của quả bóng
         x += dx;
         y += dy;
