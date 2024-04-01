@@ -93,17 +93,23 @@ function checkWinCondition(score, rowCount, columnCount) {
         document.location.reload();
     }
 }
-
+function checkWinnerLevel1(score){
+    if (score === 10) {
+        alert('You Win');
+        document.location.reload();
+    }
+}
 function hitDetection(bricks, ball) {
     for (let c = 0; c < bricks.length; c++) {
         for (let r = 0; r < bricks[c].length; r++) {
             const brick = bricks[c][r];
             if (brick.status === 1) {
-                if (ball.locationX > brick.x - ball.size &&
+                if (
+                    ball.locationX > brick.x - ball.size &&
                     ball.locationX < brick.x + brick.width + ball.size &&
                     ball.locationY > brick.y - ball.size &&
-                    ball.locationY < brick.y + brick.height + ball.size) {
-
+                    ball.locationY < brick.y + brick.height + ball.size
+                ) {
                     const collisionLeft = brick.x;
                     const collisionRight = brick.x + brick.width;
                     const collisionUp = brick.y - ball.size;
@@ -123,7 +129,8 @@ function hitDetection(bricks, ball) {
                         ball.speedX = -ball.speedX;
                     brick.status = 0;
                     score++;
-                    checkWinCondition(score, rowCount, columnCount);
+                    // checkWinCondition(score, rowCount, columnCount);
+                    checkWinnerLevel1(score);
                 }
             }
         }
@@ -132,22 +139,35 @@ function hitDetection(bricks, ball) {
 
 function checkCollision(ball, paddle) {
     if (ball.locationX + ball.speedX > canvas.width - ball.size || ball.locationX + ball.speedX < ball.size) {
-        ball.speedX = -ball.speedX;
+        ball.speedX = -ball.speedX; // Đảo ngược hướng di chuyển theo trục X
     }
     if (ball.locationY + ball.speedY < ball.size) {
-        ball.speedY = -ball.speedY;
-    } else if (ball.locationY + ball.speedY > canvas.height - ball.size) {
+        ball.speedY = -ball.speedY; // Đảo ngược hướng di chuyển theo trục Y
+    } else if (ball.locationY + ball.speedY > canvas.height - paddle.paddleHeight) {
+        // Kiểm tra va chạm với thanh paddle
         if (ball.locationX > paddle.x && ball.locationX < paddle.x + paddle.paddleWidth) {
-            ball.speedY = -ball.speedY;
+            // Quả bóng va chạm với thanh paddle
+            const paddleCenter = paddle.x + paddle.paddleWidth / 2;
+            const distance = ball.locationX - paddleCenter;
+            const reflectionAngle = (distance / (paddle.paddleWidth / 2)) * (Math.PI / 4);
+            const newSpeedX = ball.speedX * Math.cos(reflectionAngle) - ball.speedY * Math.sin(reflectionAngle);
+            const newSpeedY = ball.speedX * Math.sin(reflectionAngle) + ball.speedY * Math.cos(reflectionAngle);
+            ball.speedX = newSpeedX;
+            ball.speedY = -newSpeedY;
         } else {
-            alert("GameOver")
+            // Nếu quả bóng không va chạm với thanh paddle, kết thúc trò chơi
+            alert("GameOver");
             resetGame();
         }
     }
-
+    // Cập nhật vị trí mới của quả bóng
     ball.locationX += ball.speedX;
     ball.locationY += ball.speedY;
 }
+
+
+
+
 function trackScore(score) {
     ctx.font = 'bold 16px sans-serif';
     ctx.fillStyle = '#333';
