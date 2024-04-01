@@ -99,37 +99,59 @@ function checkWinnerLevel1(score){
         document.location.reload();
     }
 }
+// function hitDetection(bricks, ball) {
+//     for (let c = 0; c < bricks.length; c++) {
+//         for (let r = 0; r < bricks[c].length; r++) {
+//             const brick = bricks[c][r];
+//             if (brick.status === 1) {
+//                 if (
+//                     ball.locationX > brick.x - ball.size &&
+//                     ball.locationX < brick.x + brick.width + ball.size &&
+//                     ball.locationY > brick.y - ball.size &&
+//                     ball.locationY < brick.y + brick.height + ball.size
+//                 ) {
+//                     const collisionLeft = brick.x;
+//                     const collisionRight = brick.x + brick.width;
+//                     const collisionUp = brick.y - ball.size;
+//                     const collisionDown = brick.y + brick.height;
+//                     let collision = null;
+//                     if (ball.locationX >= collisionLeft && ball.locationX <= collisionRight && ball.locationY > collisionDown)
+//                         collision = 'down';
+//                     if (ball.locationX >= collisionLeft && ball.locationX <= collisionRight && ball.locationY < collisionUp)
+//                         collision = 'up';
+//                     if (ball.locationY >= collisionUp && ball.locationY <= collisionDown && ball.locationX < collisionLeft)
+//                         collision = 'left';
+//                     if (ball.locationY >= collisionUp && ball.locationY <= collisionDown && ball.locationX > collisionRight)
+//                         collision = 'right';
+//                     if (['down', 'up'].includes(collision))
+//                         ball.speedY = -ball.speedY;
+//                     if (['left', 'right'].includes(collision))
+//                         ball.speedX = -ball.speedX;
+//                     brick.status = 0;
+//                     score++;
+//                     // checkWinCondition(score, rowCount, columnCount);
+//                     checkWinnerLevel1(score);
+//                 }
+//             }
+//         }
+//     }
+// }
 function hitDetection(bricks, ball) {
     for (let c = 0; c < bricks.length; c++) {
         for (let r = 0; r < bricks[c].length; r++) {
             const brick = bricks[c][r];
             if (brick.status === 1) {
-                if (
-                    ball.locationX > brick.x - ball.size &&
-                    ball.locationX < brick.x + brick.width + ball.size &&
-                    ball.locationY > brick.y - ball.size &&
-                    ball.locationY < brick.y + brick.height + ball.size
-                ) {
-                    const collisionLeft = brick.x;
-                    const collisionRight = brick.x + brick.width;
-                    const collisionUp = brick.y - ball.size;
-                    const collisionDown = brick.y + brick.height;
-                    let collision = null;
-                    if (ball.locationX >= collisionLeft && ball.locationX <= collisionRight && ball.locationY > collisionDown)
-                        collision = 'down';
-                    if (ball.locationX >= collisionLeft && ball.locationX <= collisionRight && ball.locationY < collisionUp)
-                        collision = 'up';
-                    if (ball.locationY >= collisionUp && ball.locationY <= collisionDown && ball.locationX < collisionLeft)
-                        collision = 'left';
-                    if (ball.locationY >= collisionUp && ball.locationY <= collisionDown && ball.locationX > collisionRight)
-                        collision = 'right';
-                    if (['down', 'up'].includes(collision))
-                        ball.speedY = -ball.speedY;
-                    if (['left', 'right'].includes(collision))
+                const dx = ball.locationX - Math.max(brick.x, Math.min(ball.locationX, brick.x + brick.width));
+                const dy = ball.locationY - Math.max(brick.y, Math.min(ball.locationY, brick.y + brick.height));
+                if ((dx * dx + dy * dy) < (ball.size * ball.size)) {
+                    // Xác định hướng va chạm
+                    if (Math.abs(dx) > Math.abs(dy)) {
                         ball.speedX = -ball.speedX;
+                    } else {
+                        ball.speedY = -ball.speedY;
+                    }
                     brick.status = 0;
                     score++;
-                    // checkWinCondition(score, rowCount, columnCount);
                     checkWinnerLevel1(score);
                 }
             }
