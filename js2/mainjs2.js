@@ -99,12 +99,11 @@ function hitDetection(bricks, ball) {
         for (let r = 0; r < bricks[c].length; r++) {
             const brick = bricks[c][r];
             if (brick.status === 1) {
-                if (
-                    ball.locationX > brick.x - ball.size &&
+                if (ball.locationX > brick.x - ball.size &&
                     ball.locationX < brick.x + brick.width + ball.size &&
                     ball.locationY > brick.y - ball.size &&
-                    ball.locationY < brick.y + brick.height + ball.size
-                ) {
+                    ball.locationY < brick.y + brick.height + ball.size) {
+
                     const collisionLeft = brick.x;
                     const collisionRight = brick.x + brick.width;
                     const collisionUp = brick.y - ball.size;
@@ -135,7 +134,6 @@ function checkCollision(ball, paddle) {
     if (ball.locationX + ball.speedX > canvas.width - ball.size || ball.locationX + ball.speedX < ball.size) {
         ball.speedX = -ball.speedX;
     }
-
     if (ball.locationY + ball.speedY < ball.size) {
         ball.speedY = -ball.speedY;
     } else if (ball.locationY + ball.speedY > canvas.height - ball.size) {
