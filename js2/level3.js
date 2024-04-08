@@ -137,7 +137,7 @@ function checkCollision(ball, paddle) {
             ball.speedY = -newSpeedY;
         } else {
             // Nếu quả bóng không va chạm với thanh paddle, kết thúc trò chơi
-            alert("GameOver");
+            // alert("GameOver");
             resetGame();
         }
     }

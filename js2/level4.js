@@ -132,7 +132,7 @@ function checkCollision(ball, paddle) {
             ball.speedX = newSpeedX;
             ball.speedY = -newSpeedY;
         } else {
-            alert("GameOver");
+            // alert("GameOver");
             resetGame();
         }
     }
@@ -283,7 +283,7 @@ function checkCollisionWithObstacle(ball) {
             ball.locationY > obstacle.y &&
             ball.locationY < obstacle.y + obstacle.height
         ) {
-            alert("GameOver");
+            // alert("GameOver");
             resetGame();
         }
     });
