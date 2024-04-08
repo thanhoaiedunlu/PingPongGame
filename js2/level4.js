@@ -3,8 +3,6 @@ let ctx = canvas.getContext("2d");
 let score = 0; // Điểm số ban đầu
 const rowCount = 5; // Số lượng hàng gạch
 const columnCount = 9; // Số lượng cột gạch
-let rowDirection = 1; // Hướng di chuyển của các hàng gạch
-let brickMoveSpeed = 1; // Tốc độ di chuyển của các hàng gạch
 
 class Ball {
     constructor(size, locationX, locationY, speedX, speedY) {
@@ -63,16 +61,11 @@ function drawBricks(bricks) {
             if (bricks[c][r].status === 1) {
                 let brickX = bricks[c][r].x;
                 let brickY = bricks[c][r].y;
-                brickY += rowDirection * brickMoveSpeed; // Cập nhật vị trí của hàng gạch dựa trên rowDirection và tốc độ
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, bricks[c][r].width, bricks[c][r].height);
                 ctx.fillStyle = bricks[c][r].color;
                 ctx.fill();
                 ctx.closePath();
-                // Kiểm tra xem hàng gạch có chạm vào biên của canvas không
-                if (brickY <= 0 || brickY + bricks[c][r].height >= canvas.height) {
-                    rowDirection *= -1; // Đảo ngược hướng di chuyển của hàng gạch
-                }
             }
         }
     }
@@ -109,7 +102,6 @@ function hitDetection(bricks, ball) {
                 const dx = ball.locationX - Math.max(brick.x, Math.min(ball.locationX, brick.x + brick.width));
                 const dy = ball.locationY - Math.max(brick.y, Math.min(ball.locationY, brick.y + brick.height));
                 if ((dx * dx + dy * dy) < (ball.size * ball.size)) {
-                    // Xác định hướng va chạm
                     if (Math.abs(dx) > Math.abs(dy)) {
                         ball.speedX = -ball.speedX;
                     } else {
@@ -126,14 +118,12 @@ function hitDetection(bricks, ball) {
 
 function checkCollision(ball, paddle) {
     if (ball.locationX + ball.speedX > canvas.width - ball.size || ball.locationX + ball.speedX < ball.size) {
-        ball.speedX = -ball.speedX; // Đảo ngược hướng di chuyển theo trục X
+        ball.speedX = -ball.speedX;
     }
     if (ball.locationY + ball.speedY < ball.size) {
-        ball.speedY = -ball.speedY; // Đảo ngược hướng di chuyển theo trục Y
+        ball.speedY = -ball.speedY;
     } else if (ball.locationY + ball.speedY > canvas.height - paddle.paddleHeight) {
-        // Kiểm tra va chạm với thanh paddle
         if (ball.locationX > paddle.x && ball.locationX < paddle.x + paddle.paddleWidth) {
-            // Quả bóng va chạm với thanh paddle
             const paddleCenter = paddle.x + paddle.paddleWidth / 2;
             const distance = ball.locationX - paddleCenter;
             const reflectionAngle = (distance / (paddle.paddleWidth / 2)) * (Math.PI / 4);
@@ -142,12 +132,10 @@ function checkCollision(ball, paddle) {
             ball.speedX = newSpeedX;
             ball.speedY = -newSpeedY;
         } else {
-            // Nếu quả bóng không va chạm với thanh paddle, kết thúc trò chơi
             alert("GameOver");
             resetGame();
         }
     }
-    // Cập nhật vị trí mới của quả bóng
     ball.locationX += ball.speedX;
     ball.locationY += ball.speedY;
 }
@@ -157,7 +145,6 @@ function trackScore(score) {
     ctx.fillStyle = '#333';
     ctx.fillText('Score: ' + score, 8, 24);
 }
-
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks(bricks);
@@ -167,6 +154,8 @@ function draw() {
     checkCollision(ball, paddle);
     checkWinCondition(score, rowCount, columnCount);
     trackScore(score);
+    drawObstacle(); // Vẽ chướng ngại vật
+    checkCollisionWithObstacle(ball);
 }
 
 const colors = [
@@ -183,21 +172,15 @@ const colors = [
 ];
 
 function resetGame() {
-    // Khởi tạo lại vị trí ban đầu của quả bóng
-    let initialBallX = canvas.width / 2; // Đặt giữa canvas
-    let initialBallY = canvas.height - 40; // Vị trí y không thay đổi
-    ball = new Ball(6, initialBallX, initialBallY, 3, -3);
+    let initialBallX = canvas.width / 2;
+    let initialBallY = canvas.height - 40;
+    ball = new Ball(8, initialBallX, initialBallY, 2, -2);
 
-    // Khởi tạo lại vị trí ban đầu của thanh paddle
     paddle = new Paddle(canvas.width, 15, 50);
 
-    // Khởi tạo lại các viên gạch
     bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
 
-    // Đặt lại điểm số về 0
     score = 0;
-
-    // Vẽ lại tất cả các phần tử trò chơi
     draw();
 }
 
@@ -205,17 +188,7 @@ let ball = new Ball(6, canvas.width / 2, canvas.height - 40, 2, -2);
 let paddle = new Paddle(canvas.width, 15, 50);
 let bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
 
-// Hàm cập nhật vị trí của các hàng gạch
-function moveBricks() {
-    setInterval(function() {
-        draw();
-    }, 10); // Cập nhật vị trí mỗi 10 miliseconds
-}
-
-moveBricks(); // Bắt đầu di chuyển các hàng gạch tự động
-
 document.addEventListener("mousemove", mouseMoveHandler, false);
-
 function mouseMoveHandler(e) {
     const relativeX = e.clientX - canvas.offsetLeft;
     if (relativeX > 0 && relativeX < canvas.width) {
@@ -223,10 +196,66 @@ function mouseMoveHandler(e) {
     }
 }
 
-// Lấy thẻ button có id là "reset"
+let brickMoveSpeed = 1;
+moveBricks();
+
+function moveBricks() {
+    setInterval(function() {
+        for (let c = 0; c < bricks.length; c++) {
+            for (let r = 0; r < bricks[c].length; r++) {
+                bricks[c][r].x += brickMoveSpeed; // Di chuyển viên gạch sang phải
+                // Nếu viên gạch đụng vào biên phải hoặc trái của canvas, đảo ngược hướng di chuyển
+                if (bricks[c][r].x + bricks[c][r].width > canvas.width || bricks[c][r].x < 0) {
+                    brickMoveSpeed = -brickMoveSpeed;
+                }
+            }
+        }
+    }, 100); // Cập nhật vị trí mỗi 100 miliseconds
+}
+
+setInterval(draw, 10);
+
 const resetButton = document.getElementById('reset');
 
-// Thêm sự kiện click vào nút "Reset"
 resetButton.addEventListener('click', function() {
-    document.location.reload(); // Tải lại trang để reset trò chơi
+    document.location.reload();
 });
+// Thêm chướng ngại vật
+const obstacle = {
+    x: canvas.width / 2 - 25,
+    y: canvas.height / 2 - 25,
+    width: 40,
+    height: 40
+};
+const obstacles = [
+    { x: 100, y: 250, width: 30, height: 30 },
+    { x: 330, y: 250, width: 30, height: 30 },
+    { x: 530, y: 250, width: 30, height: 30}
+];
+
+// Vẽ chướng ngại vật
+function drawObstacle() {
+    obstacles.forEach(obstacle => {
+        ctx.beginPath();
+        ctx.rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        ctx.fillStyle = "#FF0000";
+        ctx.fill();
+        ctx.closePath();
+    });
+}
+
+// Kiểm tra va chạm với chướng ngại vật
+function checkCollisionWithObstacle(ball) {
+    obstacles.forEach(obstacle => {
+        if (
+            ball.locationX > obstacle.x &&
+            ball.locationX < obstacle.x + obstacle.width &&
+            ball.locationY > obstacle.y &&
+            ball.locationY < obstacle.y + obstacle.height
+        ) {
+            alert("GameOver");
+            resetGame();
+        }
+    });
+}
+
