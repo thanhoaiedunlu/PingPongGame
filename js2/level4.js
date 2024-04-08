@@ -179,12 +179,16 @@ function resetGame() {
     paddle = new Paddle(canvas.width, 15, 50);
 
     bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
-
+    // Khởi tạo lại vị trí ban đầu của chướng ngại vật
+    obstacles.forEach((obstacle, index) => {
+        obstacles[index].x = obstacleInitialPositions[index].x;
+        obstacles[index].y = obstacleInitialPositions[index].y;
+    });
     score = 0;
     draw();
 }
 
-let ball = new Ball(6, canvas.width / 2, canvas.height - 40, 2, -2);
+let ball = new Ball(8, canvas.width / 2, canvas.height - 40, 2, -2);
 let paddle = new Paddle(canvas.width, 15, 50);
 let bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
 
@@ -208,6 +212,24 @@ function moveBricks() {
                 if (bricks[c][r].x + bricks[c][r].width > canvas.width || bricks[c][r].x < 0) {
                     brickMoveSpeed = -brickMoveSpeed;
                 }
+            }
+        }
+    }, 100); // Cập nhật vị trí mỗi 100 miliseconds
+}
+moveObstacles();
+// Khai báo và khởi tạo biến obstacleMoveSpeed
+let obstacleMoveSpeed = 1;
+
+// Hàm moveObstacles() di chuyển các chướng ngại vật
+function moveObstacles() {
+    setInterval(function() {
+        for (let i = 0; i < obstacles.length; i++) {
+            // Di chuyển chướng ngại vật sang trái hoặc phải
+            obstacles[i].x -= obstacleMoveSpeed;
+
+            // Nếu chướng ngại vật chạm vào biên phải hoặc trái của canvas, đảo ngược hướng di chuyển
+            if (obstacles[i].x + obstacles[i].width > canvas.width || obstacles[i].x < 0) {
+                obstacleMoveSpeed = -obstacleMoveSpeed;
             }
         }
     }, 100); // Cập nhật vị trí mỗi 100 miliseconds
@@ -236,13 +258,21 @@ const obstacles = [
 // Vẽ chướng ngại vật
 function drawObstacle() {
     obstacles.forEach(obstacle => {
+        // Vẽ hình chữ nhật đại diện cho vật cản
         ctx.beginPath();
-        ctx.rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-        ctx.fillStyle = "#FF0000";
+        ctx.arc(obstacle.x + obstacle.width / 2, obstacle.y + obstacle.height / 2, obstacle.width / 2, 0, Math.PI * 2);
+        ctx.fillStyle = "#000";
         ctx.fill();
         ctx.closePath();
+
+        // Ghi chữ "boom" vào bên trong vật cản
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "#FFFFFF"; // Màu chữ trắng
+        ctx.textAlign = "center";
+        ctx.fillText("Boom", obstacle.x + obstacle.width / 2, obstacle.y + obstacle.height / 2 + 6); // +6 để căn giữa theo chiều dọc
     });
 }
+
 
 // Kiểm tra va chạm với chướng ngại vật
 function checkCollisionWithObstacle(ball) {
