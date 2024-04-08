@@ -1,3 +1,62 @@
+const minPaddleWidth = 20;
+const minBrickWidth = 10;
+const minBrickHeight = 5;
+const minBallSize = 5; // Kích thước tối thiểu cho quả bóng
+
+function decreaseSize() {
+    if (paddle.paddleWidth > minPaddleWidth) {
+        paddle.paddleWidth -= 1; // Giảm kích thước của thanh paddle
+    }
+    bricks.forEach(column => {
+        column.forEach(brick => {
+            if (brick.width > minBrickWidth && brick.height > minBrickHeight) {
+                brick.width -= 1; // Giảm kích thước của gạch
+                brick.height -= 0.5;
+                brick.padding -= 0.5;
+            }
+        });
+    });
+    if (ball.size > minBallSize) {
+        ball.size -= 0.5; // Giảm kích thước của quả bóng
+    }
+}
+
+// Gọi hàm decreaseSize mỗi giây (1000 milliseconds)
+setInterval(decreaseSize, 1000);
+
+const accelerationRate = 0.001; // Tốc độ tăng tốc
+
+function increaseBallSpeed() {
+    // Tăng tốc độ theo các thành phần speedX và speedY
+    ball.speedX += ball.speedX * accelerationRate;
+    ball.speedY += ball.speedY * accelerationRate;
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBricks(bricks);
+    drawBall(ball);
+    drawPaddle(paddle);
+    hitDetection(bricks, ball);
+    checkCollision(ball, paddle);
+    checkWinCondition(score, rowCount, columnCount);
+    trackScore(score);
+    increaseBallSpeed();
+}
+
+const colors = [
+    '#ff6969',
+    '#e8a650',
+    '#ffd369',
+    '#a5d296',
+    '#4cbbb9',
+    '#7aa5d2',
+    '#be86e3',
+    '#9c4f97',
+    '#ff8fb2',
+    '#5c5c5c'
+];
+
 let canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
 let score = 0; // Điểm số ban đầu
@@ -93,6 +152,7 @@ function checkWinCondition(score, rowCount, columnCount) {
         document.location.reload();
     }
 }
+
 function hitDetection(bricks, ball) {
     for (let c = 0; c < bricks.length; c++) {
         for (let r = 0; r < bricks[c].length; r++) {
@@ -143,45 +203,24 @@ function checkCollision(ball, paddle) {
     ball.locationX += ball.speedX;
     ball.locationY += ball.speedY;
 }
+
 function trackScore(score) {
     ctx.font = 'bold 16px sans-serif';
     ctx.fillStyle = '#333';
     ctx.fillText('Score: ' + score, 8, 24);
 }
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks(bricks);
-    drawBall(ball);
-    drawPaddle(paddle);
-    hitDetection(bricks, ball);
-    checkCollision(ball, paddle);
-    checkWinCondition(score, rowCount, columnCount);
-    trackScore(score);
-}
 
-const colors = [
-    '#ff6969',
-    '#e8a650',
-    '#ffd369',
-    '#a5d296',
-    '#4cbbb9',
-    '#7aa5d2',
-    '#be86e3',
-    '#9c4f97',
-    '#ff8fb2',
-    '#5c5c5c'
-];
 function resetGame() {
     // Khởi tạo lại vị trí ban đầu của quả bóng
     let initialBallX = canvas.width / 2; // Đặt giữa canvas
     let initialBallY = canvas.height - 40; // Vị trí y không thay đổi
-    ball = new Ball(6, initialBallX, initialBallY, 3, -3);
+    ball = new Ball(9, initialBallX, initialBallY, 2, -2);
 
     // Khởi tạo lại vị trí ban đầu của thanh paddle
-    paddle = new Paddle(canvas.width, 15, 50);
+    paddle = new Paddle(canvas.width, 15, 72);
 
     // Khởi tạo lại các viên gạch
-    bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
+    bricks = createBricks(11, 5, 40, 24, colors, 54, 18, 1);
 
     // Đặt lại điểm số về 0
     score = 0;
@@ -190,9 +229,9 @@ function resetGame() {
     draw();
 }
 
-let ball = new Ball(6, canvas.width / 2, canvas.height - 40, 3, -3);
-let paddle = new Paddle(canvas.width, 15, 50);
-let bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
+let ball = new Ball(9, canvas.width / 2, canvas.height - 40, 2, -2);
+paddle = new Paddle(canvas.width, 15, 72);
+bricks = createBricks(11, 5, 40, 24, colors, 54, 18, 1);
 document.addEventListener("mousemove", mouseMoveHandler, false);
 function mouseMoveHandler(e) {
     const relativeX = e.clientX - canvas.offsetLeft;
@@ -210,4 +249,3 @@ const resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', function() {
     document.location.reload(); // Tải lại trang để reset trò chơi
 });
-let isPaused = false; // Biến để kiểm tra xem trò chơi có đang ở trạng thái pause hay không

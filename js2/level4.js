@@ -1,10 +1,10 @@
-
-
 let canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
 let score = 0; // Điểm số ban đầu
 const rowCount = 5; // Số lượng hàng gạch
 const columnCount = 9; // Số lượng cột gạch
+let rowDirection = 1; // Hướng di chuyển của các hàng gạch
+let brickMoveSpeed = 1; // Tốc độ di chuyển của các hàng gạch
 
 class Ball {
     constructor(size, locationX, locationY, speedX, speedY) {
@@ -63,11 +63,16 @@ function drawBricks(bricks) {
             if (bricks[c][r].status === 1) {
                 let brickX = bricks[c][r].x;
                 let brickY = bricks[c][r].y;
+                brickY += rowDirection * brickMoveSpeed; // Cập nhật vị trí của hàng gạch dựa trên rowDirection và tốc độ
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, bricks[c][r].width, bricks[c][r].height);
                 ctx.fillStyle = bricks[c][r].color;
                 ctx.fill();
                 ctx.closePath();
+                // Kiểm tra xem hàng gạch có chạm vào biên của canvas không
+                if (brickY <= 0 || brickY + bricks[c][r].height >= canvas.height) {
+                    rowDirection *= -1; // Đảo ngược hướng di chuyển của hàng gạch
+                }
             }
         }
     }
@@ -95,6 +100,7 @@ function checkWinCondition(score, rowCount, columnCount) {
         document.location.reload();
     }
 }
+
 function hitDetection(bricks, ball) {
     for (let c = 0; c < bricks.length; c++) {
         for (let r = 0; r < bricks[c].length; r++) {
@@ -145,11 +151,13 @@ function checkCollision(ball, paddle) {
     ball.locationX += ball.speedX;
     ball.locationY += ball.speedY;
 }
+
 function trackScore(score) {
     ctx.font = 'bold 16px sans-serif';
     ctx.fillStyle = '#333';
     ctx.fillText('Score: ' + score, 8, 24);
 }
+
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks(bricks);
@@ -173,6 +181,7 @@ const colors = [
     '#ff8fb2',
     '#5c5c5c'
 ];
+
 function resetGame() {
     // Khởi tạo lại vị trí ban đầu của quả bóng
     let initialBallX = canvas.width / 2; // Đặt giữa canvas
@@ -192,29 +201,27 @@ function resetGame() {
     draw();
 }
 
-let ball = new Ball(6, canvas.width / 2, canvas.height - 40, 3, -3);
+let ball = new Ball(6, canvas.width / 2, canvas.height - 40, 2, -2);
 let paddle = new Paddle(canvas.width, 15, 50);
 let bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
+
+// Hàm cập nhật vị trí của các hàng gạch
+function moveBricks() {
+    setInterval(function() {
+        draw();
+    }, 10); // Cập nhật vị trí mỗi 10 miliseconds
+}
+
+moveBricks(); // Bắt đầu di chuyển các hàng gạch tự động
+
 document.addEventListener("mousemove", mouseMoveHandler, false);
-let lastPaddleX = paddle.x;
+
 function mouseMoveHandler(e) {
     const relativeX = e.clientX - canvas.offsetLeft;
     if (relativeX > 0 && relativeX < canvas.width) {
-        let paddleMove = relativeX - lastPaddleX; // Tính toán khoảng cách di chuyển của thanh paddle
         paddle.x = relativeX - paddle.paddleWidth / 2;
-        // Cập nhật vị trí của các hàng gạch dựa trên khoảng cách di chuyển của thanh paddle
-        for (let c = 0; c < bricks.length; c++) {
-            for (let r = 0; r < bricks[c].length; r++) {
-                if (bricks[c][r].status === 1) {
-                    bricks[c][r].x -= paddleMove;
-                }
-            }
-        }
-        lastPaddleX = relativeX; // Lưu trữ vị trí hiện tại của thanh paddle
     }
 }
-
-setInterval(draw, 10);
 
 // Lấy thẻ button có id là "reset"
 const resetButton = document.getElementById('reset');
@@ -223,4 +230,3 @@ const resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', function() {
     document.location.reload(); // Tải lại trang để reset trò chơi
 });
-let isPaused = false; // Biến để kiểm tra xem trò chơi có đang ở trạng thái pause hay không
