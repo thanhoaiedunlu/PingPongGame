@@ -164,7 +164,7 @@ function checkCollision(ball, paddle) {
             }
         } else {
             gameOver = true;
-            result.textContent = 'Game Over Mời bạn bấm Play Again để chơi lại';
+            result.textContent = 'Game Over';
         }
     }
     // cập nhật vị trí mới của bóng dựa trên hướng di chuyển mới
@@ -388,7 +388,7 @@ function selectLevel4(){
                 ball.locationY < obstacle.y + obstacle.height
             ) {
                 gameOver = true;
-                result.textContent = 'Game Over Mời bạn bấm Play Again để chơi lại';
+                result.textContent = 'Game Over';
             }
         });
     }
