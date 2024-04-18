@@ -79,7 +79,6 @@ function drawBricks(bricks) {
         }
     }
 }
-
 function drawBall(ball) {
     ctx.beginPath();
     ctx.arc(ball.locationX, ball.locationY, ball.size, 0, Math.PI * 2);
@@ -87,7 +86,6 @@ function drawBall(ball) {
     ctx.fill();
     ctx.closePath();
 }
-
 function drawPaddle(paddle) {
     ctx.beginPath();
     ctx.rect(paddle.x, canvas.height - paddle.paddleHeight, paddle.paddleWidth, paddle.paddleHeight);
@@ -100,7 +98,6 @@ function trackScore(score) {
     ctx.fillStyle = '#fff';
     ctx.fillText('Score: ' + score, 8, 24);
 }
-
 function checkWinCondition(score, rowCount, columnCount) {
     if (score === rowCount * columnCount) {
         result.textContent = 'You Win Mời bạn bấm play again để chơi lại';
@@ -125,23 +122,28 @@ function hitDetection(bricks, ball) {
                     brick.status = 0;
                     score++;
                     checkWinCondition(score,bricks.length, bricks[c].length);
-                    brickSound.play();
+                    if (sound == true){
+                        brickSound.play();
+                    }
                 }
             }
         }
     }
 }
-
 function checkCollision(ball, paddle) {
     // kiểm tra bóng có va chạm với bên phải và bên trái canvas không
     if (ball.locationX + ball.speedX > canvas.width - ball.size || ball.locationX + ball.speedX < ball.size) {
         ball.speedX = -ball.speedX; // Đảo ngược bóng hướng di chuyển theo trục X
-        ballSound.play();
+        if (sound == true){
+            ballSound.play();
+        }
     }
     // kiểm tra có va chạm phía bên trên của canvas
     if (ball.locationY + ball.speedY < ball.size) {
         ball.speedY = -ball.speedY; // Đảo ngược bóng hướng di chuyển theo trục Y
-        ballSound.play();
+        if (sound == true){
+            ballSound.play();
+        }
     } else if (ball.locationY + ball.speedY > canvas.height - paddle.paddleHeight) {
         // Kiểm tra va chạm với thanh paddle
         if (ball.locationX > paddle.x && ball.locationX < paddle.x + paddle.paddleWidth) {
@@ -155,7 +157,11 @@ function checkCollision(ball, paddle) {
             let newSpeedY = ball.speedX * Math.sin(reflectionAngle) + ball.speedY * Math.cos(reflectionAngle);
             ball.speedX = newSpeedX;
             ball.speedY = -newSpeedY;
-            ballSound.play();
+            if (sound == true){
+                if (sound == true){
+                    ballSound.play();
+                }
+            }
         } else {
             gameOver = true;
             result.textContent = 'Game Over Mời bạn bấm Play Again để chơi lại';
@@ -220,7 +226,9 @@ function resetInterval4() {
         intervalMoveBricks = null;
     }
 }
+let currentLevel = 1;
 function selectLevel1(){
+    currentLevel = 1;
     resetGame();
     resetInterval();
     resetInterval2();
@@ -240,6 +248,7 @@ function selectLevel1(){
     intervalID = setInterval(draw, 10);
 }
 function selectLevel2(){
+    currentLevel = 2;
     resetGame();
     resetInterval();
     resetInterval2();
@@ -290,6 +299,8 @@ function selectLevel2(){
     intervalID = setInterval(draw, 10);
 }
 function selectLevel3(){
+    currentLevel = 3;
+    resetGame();
     resetInterval();
     resetInterval2();
     resetInterval3();
@@ -338,6 +349,7 @@ function selectLevel3(){
     intervalID = setInterval(draw, 10);
 }
 function selectLevel4(){
+    currentLevel = 4;
     resetGame();
     resetInterval();
     resetInterval2();
@@ -431,6 +443,7 @@ function selectLevel4(){
     intervalID = setInterval(draw, 10);
 }
 function selectLevel5(){
+    currentLevel = 5;
     resetGame();
     resetInterval();
     resetInterval2();
@@ -540,6 +553,7 @@ function selectLevel5(){
     intervalID =  setInterval(draw, 10);
 }
 function selectLevel6(){
+    currentLevel = 6;
     resetGame();
     resetInterval();
     resetInterval2();
@@ -605,16 +619,67 @@ function selectLevel6(){
     }
     intervalID = setInterval(draw, 10);
 }
-
 const resetButton = document.getElementById('reset');
 const result = document.getElementById('result-h3');
 const playAgain = document.getElementById('play-again');
-
+function playAgainLevel() {
+    if (currentLevel === 1) {
+        selectLevel1();
+        result.textContent = 'Level 1';
+    }
+    else if (currentLevel === 2) {
+        selectLevel2();
+        result.textContent = 'Level 2';
+    }
+    else if (currentLevel === 3) {
+        selectLevel3();
+        result.textContent = 'Level 3';
+    }
+    else if (currentLevel === 4) {
+        selectLevel4();
+        result.textContent = 'Level 4';
+    }
+    else if (currentLevel === 5) {
+        selectLevel5();
+        result.textContent = 'Level 5';
+    }
+    else if (currentLevel === 6) {
+        selectLevel6();
+        result.textContent = 'Level 6';
+    }
+}
+function nextLevel() {
+    currentLevel++;
+    if (currentLevel === 1) {
+        selectLevel1();
+        result.textContent = 'Level 1';
+    }
+    else if (currentLevel === 2) {
+        selectLevel2();
+        result.textContent = 'Level 2';
+    }
+    else if (currentLevel === 3) {
+        selectLevel3();
+        result.textContent = 'Level 3';
+    }
+    else if (currentLevel === 4) {
+        selectLevel4();
+        result.textContent = 'Level 4';
+    }
+    else if (currentLevel === 5) {
+        selectLevel5();
+        result.textContent = 'Level 5';
+    }
+    else if (currentLevel === 6) {
+        selectLevel6();
+        result.textContent = 'Level 6';
+    }
+    else if (currentLevel > 6) {
+        currentLevel = 0;
+    }
+}
 playAgain.addEventListener('click', function() {
-    document.location.reload();
-});
-resetButton.addEventListener('click', function() {
-    document.location.reload();
+    playAgainLevel();
 });
 document.getElementById("level1").addEventListener("click", function() {
     selectLevel1();
@@ -639,4 +704,20 @@ document.getElementById("level5").addEventListener("click", function() {
 document.getElementById("level6").addEventListener("click", function() {
     selectLevel6();
     result.textContent = 'Level 6';
+});
+let sound = true;
+document.getElementById('mute').addEventListener('click', function (){
+    sound = false;
+});
+document.getElementById('unmute').addEventListener('click', function (){
+    sound = true;
+});
+document.getElementById('reset').addEventListener('click', function (){
+    document.location.reload();
+});
+document.getElementById('resetgame').addEventListener('click', function (){
+    playAgainLevel();
+});
+document.getElementById('nextLevel').addEventListener('click', function (){
+   nextLevel();
 });
