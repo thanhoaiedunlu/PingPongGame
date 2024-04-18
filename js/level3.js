@@ -192,27 +192,27 @@ function resetGame() {
     draw();
 }
 
-let ball = new Ball(6, canvas.width / 2, canvas.height - 40, 3, -3);
-let paddle = new Paddle(canvas.width, 15, 50);
-let bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
-document.addEventListener("mousemove", mouseMoveHandler, false);
-let lastPaddleX = paddle.x;
-function mouseMoveHandler(e) {
-    const relativeX = e.clientX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < canvas.width) {
-        let paddleMove = relativeX - lastPaddleX; // Tính toán khoảng cách di chuyển của thanh paddle
-        paddle.x = relativeX - paddle.paddleWidth / 2;
-        // Cập nhật vị trí của các hàng gạch dựa trên khoảng cách di chuyển của thanh paddle
-        for (let c = 0; c < bricks.length; c++) {
-            for (let r = 0; r < bricks[c].length; r++) {
-                if (bricks[c][r].status === 1) {
-                    bricks[c][r].x -= paddleMove;
+    let ball = new Ball(6, canvas.width / 2, canvas.height - 40, 3, -3);
+    let paddle = new Paddle(canvas.width, 15, 50);
+    let bricks = createBricks(9, 5, 30, 30, colors, 40, 15, 30);
+    document.addEventListener("mousemove", mouseMoveHandler, false);
+    let lastPaddleX = paddle.x;
+    function mouseMoveHandler(e) {
+        const relativeX = e.clientX - canvas.offsetLeft;
+        if (relativeX > 0 && relativeX < canvas.width) {
+            let paddleMove = relativeX - lastPaddleX; // Tính toán khoảng cách di chuyển của thanh paddle
+            paddle.x = relativeX - paddle.paddleWidth / 2;
+            // Cập nhật vị trí của các hàng gạch dựa trên khoảng cách di chuyển của thanh paddle
+            for (let c = 0; c < bricks.length; c++) {
+                for (let r = 0; r < bricks[c].length; r++) {
+                    if (bricks[c][r].status === 1) {
+                        bricks[c][r].x -= paddleMove;
+                    }
                 }
             }
+            lastPaddleX = relativeX; // Lưu trữ vị trí hiện tại của thanh paddle
         }
-        lastPaddleX = relativeX; // Lưu trữ vị trí hiện tại của thanh paddle
     }
-}
 
 setInterval(draw, 10);
 

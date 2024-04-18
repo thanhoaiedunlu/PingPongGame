@@ -3,6 +3,7 @@ body {
   background-size: cover;
   position: relative;
   font-family: Roboto, sans-serif;
+  background-image: url("/img/background.png");
 }
 body #container {
   width: 1200px;
@@ -27,6 +28,7 @@ body #container .center-col h1 {
   text-align: center;
 }
 body #container .center-col canvas {
+  background-image: url("/img/backgroundGame.png");
   background-color: ghostwhite;
   margin: 0 auto;
   display: block;
@@ -40,6 +42,21 @@ body #container .right-col .button-right button {
   height: 50px;
   margin: 10px;
   cursor: pointer;
+}
+body #container .result {
+  display: flex;
+  justify-content: center;
+}
+body #container .result .result-h3 {
+  text-align: center;
+}
+body #container .again {
+  display: flex;
+  justify-content: center;
+}
+body #container .again button {
+  width: 80px;
+  height: 50px;
 }
 
 /*# sourceMappingURL=level1.css.map */

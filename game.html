@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ping Pong</title>
+    <link rel="stylesheet" href="css/level1.css">
+    <link href="img/logo.png" rel="icon">
+    <style>
+        .left-col, .center-col, .right-col {
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <h1>Ping Pong Game</h1>
+    <div class="left-col">
+        <div class="button-level" >
+            <button class="level" id="level1">Level 1</button>
+        </div>
+        <div class="button-level" >
+            <button class="level" id="level2">Level 2</button>
+        </div>
+        <div class="button-level" >
+            <button class="level" id="level3">Level 3</button>
+        </div>
+        <div class="button-level" >
+            <button class="level" id="level4">Level 4</button>
+        </div>
+        <div class="button-level" >
+            <button class="level" id="level5">Level 5</button>
+        </div>
+        <div class="button-level" >
+            <button class="level" id="level6">Level 6</button>
+        </div>
+        <div class="button-level">
+            <button id="reset" class="play red" onclick="">Chọn lại level</button>
+        </div>
+    </div>
+    <div class="center-col">
+        <canvas id="game" width="650" height="450"></canvas>
+    </div>
+    <div class="right-col">
+        <div class="button-right">
+            <button id="pause" class="play red" onclick="">Pause</button>
+        </div>
+        <div class="button-right">
+            <button id="mute" class="audio green" onclick="">Mute</button>
+        </div>
+        <div class="button-right">
+            <button id="unmute" class="audio green" onclick="">Un Mute</button>
+        </div>
+    </div>
+    <div class="result">
+        <h2 id="result-h3">Mời bạn chọn level chơi</h2>
+    </div>
+    <div class="again">
+        <button id="play-again"  onclick="">Play Again</button>
+    </div>
+</div>
+<script src="js/mainjs.js"></script>
+</body>
+</html>
