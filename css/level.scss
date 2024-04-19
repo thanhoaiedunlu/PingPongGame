@@ -3,70 +3,125 @@
   font-family: 'GamerStation';
   src: url('/font/GamerStation.ttf');
 }
-body{
+body {
   background-image: url('/img/background.png');
   background-color: grey;
   background-size: cover;
   position: relative;
   font-family: "GamerStation";
-  #container{
+
+  #container {
     width: 1200px;
     margin: auto;
     padding-top: 50px;
-    .left-col{
+
+    .left-col {
       width: 120px;
-      .button-level, .button-intro{
-        button{
+
+      .button-level, .button-intro {
+        button {
           font-family: 'GamerStation';
-          width: 80px;
+          width: 100px;
           height: 50px;
           margin: 10px;
           cursor: pointer;
         }
       }
     }
-    .center-col{
-        width: 930px;
+
+    .center-col {
+      width: 930px;
       text-align: center;
-        h1{
-          color: whitesmoke;
-          text-align: center;
-        }
-        canvas{
-          background-image: url("/img/backgroundGame.png");
-          background-color: ghostwhite;
-          margin: 0 auto;
-          display: block;
-        }
-    }
-    .right-col{
-      width: 120px;
-      margin-left: 20px;
-      .button-right{
-      button{
-        font-family: 'GamerStation';
-        width: 80px;
-        height: 50px;
-        margin: 10px;
-        cursor: pointer;
+
+      h1 {
+        color: whitesmoke;
+        text-align: center;
+      }
+
+      canvas {
+        background-image: url("/img/backgroundGame.png");
+        background-color: ghostwhite;
+        margin: 0 auto;
+        display: block;
       }
     }
-  }
-    .result{
+
+    .right-col {
+      width: 120px;
+      margin-left: 20px;
+
+      .button-right {
+        button {
+          font-family: 'GamerStation';
+          width: 100px;
+          height: 50px;
+          margin: 10px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .result {
       display: flex;
       justify-content: center;
-      .result-h3{
+
+      .result-h3 {
         text-align: center;
       }
     }
-    .again{
+
+    .again {
       display: flex;
       justify-content: center;
-      button{
+
+      button {
         font-family: 'GamerStation';
-        width: 80px;
+        width: 100px;
         height: 50px;
       }
     }
-}}
+
+    .info {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+      .button-close{
+          margin-left: 400px;
+          button{
+            cursor: pointer;
+            width: 80px;
+            height: 40px;
+
+          }
+      }
+      h1 {
+        font-family: "Arial";
+        text-align: center;
+      }
+
+      .info-nav {
+        h2 {
+          font-family: "Arial";
+          text-align: center;
+        }
+
+        p {
+          font-family: "Arial";
+          color: black;
+          box-shadow: black;
+          font-size: 20px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
 

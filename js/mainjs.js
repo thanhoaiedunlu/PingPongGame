@@ -49,20 +49,12 @@ function createBricks(numColumns, numRows, topOffset, leftOffset, colors, brickW
 }
 const colors = [
     '#ff6969',
-    '#e8a650',
     '#ffd369',
     '#a5d296',
     '#4cbbb9',
-    '#7aa5d2',
     '#be86e3',
     '#9c4f97',
     '#ff8fb2',
-    '#5c5c5c',
-    '#ff6969',
-    '#a5d296',
-    '#4cbbb9',
-    '#7aa5d2',
-    '#be86e3'
 ];
 function drawBricks(bricks) {
     for (let c = 0; c < bricks.length; c++) {
@@ -100,7 +92,8 @@ function trackScore(score) {
 }
 function checkWinCondition(score, rowCount, columnCount) {
     if (score === rowCount * columnCount) {
-        result.textContent = 'You Win Mời bạn bấm play again để chơi lại';
+        result.textContent = 'You Win';
+        gameOver = true;
     }
 }
 function hitDetection(bricks, ball) {
@@ -276,7 +269,7 @@ function selectLevel2(){
     }
     intervalDecreaseSize = setInterval(decreaseSize, 1000);
     // tăng tốc độ của bóng
-    const accelerationRate = 0.001;
+    const accelerationRate = 0.0001;
     function increaseBallSpeed() {
         ball.speedX += ball.speedX * accelerationRate;
         ball.speedY += ball.speedY * accelerationRate;
@@ -465,7 +458,7 @@ function selectLevel5(){
             ctx.font = "14px Arial";
             ctx.fillStyle = "#fff";
             ctx.textAlign = "center";
-            ctx.fillText("Meteorite", this.x + this.width / 2, this.y + this.height / 2 + 6);
+            ctx.fillText("Meteo", this.x + this.width / 2, this.y + this.height / 2 + 6);
         }
         //cập nhật vị trí cho boom
         update() {
@@ -717,4 +710,10 @@ document.getElementById('resetgame').addEventListener('click', function (){
 });
 document.getElementById('nextLevel').addEventListener('click', function (){
    nextLevel();
+});
+document.getElementById('showInfo').addEventListener('click', function() {
+    document.querySelector('.info').style.display = 'block';
+});
+document.getElementById('close-infor').addEventListener('click', function() {
+    document.querySelector('.info').style.display = 'none';
 });

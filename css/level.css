@@ -19,7 +19,7 @@ body #container .left-col {
 }
 body #container .left-col .button-level button, body #container .left-col .button-intro button {
   font-family: "GamerStation";
-  width: 80px;
+  width: 100px;
   height: 50px;
   margin: 10px;
   cursor: pointer;
@@ -44,7 +44,7 @@ body #container .right-col {
 }
 body #container .right-col .button-right button {
   font-family: "GamerStation";
-  width: 80px;
+  width: 100px;
   height: 50px;
   margin: 10px;
   cursor: pointer;
@@ -62,8 +62,43 @@ body #container .again {
 }
 body #container .again button {
   font-family: "GamerStation";
-  width: 80px;
+  width: 100px;
   height: 50px;
+}
+body #container .info {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+}
+body #container .info .button-close {
+  margin-left: 400px;
+}
+body #container .info .button-close button {
+  cursor: pointer;
+  width: 80px;
+  height: 40px;
+}
+body #container .info h1 {
+  font-family: "Arial";
+  text-align: center;
+}
+body #container .info .info-nav h2 {
+  font-family: "Arial";
+  text-align: center;
+}
+body #container .info .info-nav p {
+  font-family: "Arial";
+  color: black;
+  box-shadow: black;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 /*# sourceMappingURL=level.css.map */
