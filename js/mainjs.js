@@ -158,9 +158,7 @@ function checkCollision(ball, paddle) {
             ball.speedX = newSpeedX;
             ball.speedY = -newSpeedY;
             if (sound == true){
-                if (sound == true){
-                    ballSound.play();
-                }
+                ballSound.play();
             }
         } else {
             gameOver = true;
@@ -461,13 +459,13 @@ function selectLevel5(){
         draw() {
             ctx.beginPath();
             ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
-            ctx.fillStyle = "#FFFFFF";
+            ctx.fillStyle = "#cc5533";
             ctx.fill();
             ctx.closePath();
             ctx.font = "14px Arial";
-            ctx.fillStyle = "#000";
+            ctx.fillStyle = "#fff";
             ctx.textAlign = "center";
-            ctx.fillText("Boom", this.x + this.width / 2, this.y + this.height / 2 + 6);
+            ctx.fillText("Meteorite", this.x + this.width / 2, this.y + this.height / 2 + 6);
         }
         //cập nhật vị trí cho boom
         update() {
@@ -520,11 +518,13 @@ function selectLevel5(){
                         } else {
                             ball.speedY = -ball.speedY;
                         }
+                        if (sound == true){
+                            brickSound.play();
+                        }
                         createObstacle(brick.x, brick.y, 40, 40, 1); // tạo ra obstacle khi gạch biến mất
                         brick.status = 0;
                         score++;
-                        checkWinnerLevel1(score);
-                        brickSound.play();
+                        checkWinCondition(score,bricks.length, bricks[c].length);
                     }
                 }
             }
@@ -711,9 +711,6 @@ document.getElementById('mute').addEventListener('click', function (){
 });
 document.getElementById('unmute').addEventListener('click', function (){
     sound = true;
-});
-document.getElementById('reset').addEventListener('click', function (){
-    document.location.reload();
 });
 document.getElementById('resetgame').addEventListener('click', function (){
     playAgainLevel();
