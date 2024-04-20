@@ -1,4 +1,4 @@
-// 21130360 Nguyen Thanh Hoai 09676611695 DH21DTB
+// 21130360 Nguyen Thanh Hoai 0367611695 DH21DTB
 class Ball {
     constructor(size, locationX, locationY, speedX, speedY) {
         this.size = size;

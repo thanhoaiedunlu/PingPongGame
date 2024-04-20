@@ -1,10 +1,10 @@
-
+//21130360 Nguyen Thanh Hoai 0367611695 DH21DTB
 @font-face {
   font-family: 'GamerStation';
-  src: url('/font/GamerStation.ttf');
+  src: url('../font/GamerStation.ttf');
 }
 body {
-  background-image: url('/img/background.png');
+  background-image: url('../img/background.png');
   background-color: grey;
   background-size: cover;
   position: relative;
@@ -39,7 +39,7 @@ body {
       }
 
       canvas {
-        background-image: url("/img/backgroundGame.png");
+        background-image: url("../img/backgroundGame.png");
         background-color: ghostwhite;
         margin: 0 auto;
         display: block;
