@@ -133,7 +133,7 @@ function checkCollision(ball, paddle) {
     }
     // kiểm tra có va chạm phía bên trên của canvas
     if (ball.locationY + ball.speedY < ball.size) {
-        ball.speedY = -ball.speedY; // Đảo ngược bóng hướng di chuyển theo trục Y
+        ball.speedY = -ball.speedY; // dảo ngược bóng hướng di chuyển theo trục Y
         if (sound == true){
             ballSound.play();
         }
