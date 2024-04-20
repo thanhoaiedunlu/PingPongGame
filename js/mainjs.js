@@ -353,9 +353,9 @@ function selectLevel4(){
         height: 40
     };
     const obstacles = [
-        { x: 100, y: 250, width: 30, height: 30 },
-        { x: 330, y: 250, width: 30, height: 30 },
-        { x: 530, y: 250, width: 30, height: 30}
+        { x: 100, y: 100, width: 30, height: 30},
+        { x: 330, y: 100, width: 30, height: 30},
+        { x: 530, y: 100, width: 30, height: 30}
     ];
     function drawObstacle() {
         obstacles.forEach(obstacle => {
@@ -559,9 +559,9 @@ function selectLevel6(){
         height: 40
     };
     const obstacles = [
-        { x: 100, y: 250, width: 65, height: 65},
-        { x: 330, y: 250, width: 65, height: 65},
-        { x: 530, y: 250, width: 65, height: 65}
+        { x: 100, y: 130, width: 30, height: 30},
+        { x: 330, y: 130, width: 30, height: 30 },
+        { x: 530, y: 130, width: 30, height: 30}
     ];
     function drawObstacle() {
         obstacles.forEach(obstacle => {
