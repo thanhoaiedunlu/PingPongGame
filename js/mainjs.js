@@ -370,6 +370,7 @@ function selectLevel4(){
             ctx.fillText("Boom", obstacle.x + obstacle.width / 2, obstacle.y + obstacle.height / 2 + 6); // +6 để căn giữa theo chiều dọc
         });
     }
+    //kiểm tra va chạm với trướng ngại vật
     function checkCollisionWithObstacle(ball) {
         obstacles.forEach(obstacle => {
             if (
@@ -385,6 +386,7 @@ function selectLevel4(){
     }
     let brickMoveSpeed = 1;
     moveBricks();
+    //di chuyển các khối gạch
     function moveBricks() {
         intervalMoveBricks = setInterval(function() {
             for (let c = 0; c < bricks.length; c++) {
