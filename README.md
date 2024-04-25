@@ -1,1 +1,1 @@
-Đây là game ping pong được viết bằng html css js
+Ping Pong Game uses html, scss, js
