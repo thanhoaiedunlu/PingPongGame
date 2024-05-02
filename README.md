@@ -1,1 +1,1 @@
-Ping Pong Game uses html, scss, js
+Ping Pong Game html, scss, js
